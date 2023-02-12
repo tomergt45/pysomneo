@@ -357,6 +357,10 @@ class Somneo(object):
         data['snooze_time'] = self.snoozetime
         data['next_alarm'] = datetime.datetime.fromisoformat(self.next_alarm()).astimezone() if self.next_alarm() else None
 
+        data['sunset'] = self.sunset_status()
+        data['sunset_brightness'] = self.sunset_brightness()
+        data['sunset_timer'] = self.sunset_timer()
+
         data['temperature'] = self.temperature()
         data['humidity'] = self.humidity()
         data['luminance'] = self.luminance()
@@ -504,18 +508,18 @@ class Somneo(object):
         payload = {'durat': duration}
         self._put('wudsk', payload=payload)
         
-    def set_sunset_brightness(self, brightness):
+    def set_sunset_sound_level(self, level):
         """ Set the sunset birghtness """
-        payload = {'sndlv': brightness}
+        payload = {'sndlv': level}
         self._put('wudsk', payload=payload)
 
     def sunset_status(self):
         """Return the status of the sunset light."""
         return bool(self.sunset_data['onoff'])
 
-    def sunset_brightness(self):
-        """Return the status of the sunset brightness."""
-        return int(int(self.sunset_data['sndlv']) / 25 * 255)
+    def sunset_sound_level(self):
+        """Return the status of the sunset sound level."""
+        return int(self.sunset_data['sndlv'])
 
     def sunset_timer(self):
         """Return the status of the sunset timer."""
