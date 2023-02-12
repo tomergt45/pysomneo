@@ -319,7 +319,6 @@ class Somneo(object):
             else:
                 self.alarm_data[alarm_name]['powerwake_delta'] = 0
 
-
     def fetch_data(self):
         """Fetch the latest data from Somneo."""
         
@@ -513,6 +512,11 @@ class Somneo(object):
         payload = {'sndlv': level}
         self._put('wudsk', payload=payload)
 
+    def set_sunset_brightness(self, brightness):
+        """ Set the sunset birghtness """
+        payload = {'curve': brightness}
+        self._put('wudsk', payload=payload)
+
     def sunset_status(self):
         """Return the status of the sunset light."""
         return bool(self.sunset_data['onoff'])
@@ -524,3 +528,7 @@ class Somneo(object):
     def sunset_timer(self):
         """Return the status of the sunset timer."""
         return int(self.sunset_data['durat'])
+
+    def sunset_brightness(self):
+        """Return the status of the brightness."""
+        return int(self.sunset_data['curve'])
