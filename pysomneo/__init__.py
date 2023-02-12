@@ -496,10 +496,27 @@ class Somneo(object):
 
     def toggle_sunset(self, status):
         """ Toggle the sunset feature on or off """
-        payload = dict()
-        payload['onoff'] = status
+        payload = {'onoff': status}
+        self._put('wudsk', payload=payload)
+
+    def set_sunset_timer(self, duration):
+        """ Set the sunset timer """
+        payload = {'durat': duration}
         self._put('wudsk', payload=payload)
         
+    def set_sunset_brightness(self, brightness):
+        """ Set the sunset birghtness """
+        payload = {'sndlv': brightness}
+        self._put('wudsk', payload=payload)
+
     def sunset_status(self):
         """Return the status of the sunset light."""
-        return bool(self.sunset_data['onoff']), int(int(self.sunset_data['sndlv']) / 25 * 255)
+        return bool(self.sunset_data['onoff'])
+
+    def sunset_brightness(self):
+        """Return the status of the sunset brightness."""
+        return int(int(self.sunset_data['sndlv']) / 25 * 255)
+
+    def sunset_timer(self):
+        """Return the status of the sunset timer."""
+        return int(self.sunset_data['durat'])
